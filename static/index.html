@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            vue-django
+        </title>
+        <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <meta charset="utf8">
+    </head>
+
+    <body>
+        <div id="app">
+            <p>{{ message }} -- {{ ct }}</p>
+            <button v-on:click="get_ct();">get_ct</button>
+        </div>
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    message: "hello vue.",
+                    ct: '',
+                },
+                methods:{
+                    get_ct: function(){
+                        var vm = this;
+                        axios({
+                            method: 'POST',
+                            url: '/foo/',
+                            xsrfCookieName: 'csrftoken',
+                            xsrfHeaderName: 'X-CSRFToken',
+                        }).then(function(response){
+                            //this.ct = response.data.ct;
+                            //console.log(this.ct);
+                            //console.log(this);
+                            vm.ct = response.data.ct;
+                        })
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
